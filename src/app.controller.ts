@@ -6,20 +6,40 @@ import {
   Header,
   HttpCode,
   Param,
+  ParseIntPipe,
   Query,
   Redirect,
   Req,
 } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Get('/')
   getIndexPageMsg(): string {
     return 'indexpage~';
+  }
+
+  @Get('/pipe1')
+  getPipeResult(@Param('id', ParseIntPipe) id: number): string {
+    return 'pipe1~';
+  }
+
+  @Get('/env')
+  getEnv(): string {
+    return process.env.DATABASE_HOST;
+  }
+
+  @Get('/dbname')
+  getDBName(): string {
+    return this.configService.get('DBNAME');
   }
 
   @Get('/hello')
