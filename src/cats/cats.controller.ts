@@ -4,9 +4,7 @@ import { CatsService } from './cats.service';
 
 @Controller('/cats')
 export class CatsController {
-  constructor( 
-    private readonly catsService: CatsService
-   ){}
+  constructor(private readonly catsService: CatsService) {}
 
   @Get()
   findAll(@Req() request: Request): string {
@@ -15,8 +13,7 @@ export class CatsController {
   }
 
   @Get('/one')
-  findOneCat():string {
+  findOneCat(): string {
     return this.catsService.findOneCat();
   }
-
 }
