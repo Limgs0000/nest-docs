@@ -27,6 +27,11 @@ export class AppController {
     return 'indexpage~';
   }
 
+  @Get('/mongo')
+  getMongoURL():string {
+    return this.configService.get('MONGODB_URL');
+  }
+
   @Get('/pipe1')
   getPipeResult(@Param('id', ParseIntPipe) id: number): string {
     return 'pipe1~';

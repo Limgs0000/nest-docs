@@ -8,6 +8,7 @@ import { CatsModule } from './cats/cats.module';
 import { EmailService } from './email/email.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import emailConfig from './config/emailConfig';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -19,6 +20,13 @@ import emailConfig from './config/emailConfig';
     AbcModule,
     UsersModule,
     CatsModule,
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URL'),
+      }),
+      inject: [ConfigService]
+    }),
   ],
   controllers: [AppController],
   providers: [ConfigService, AppService, EmailService],
